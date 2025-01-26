@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: laravel-nginx-upload
+    ports:
+      - '8001:80'
+    volumes:
+      - ./:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: curotec-file-uploading-service-app # Add this line
+    user: '${UID:-1000}:${GID:-1000}'
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - '9001:9000'
+      - '5174:5173'
+    environment:
+      - NODE_OPTIONS=--max-old-space-size=8192
+  postgres:
+    image: postgres:15
+    container_name: laravel-postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: curotec
+      POSTGRES_USER: curotec
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  node:
+    image: node:18
+    container_name: laravel-node-upload
+    working_dir: /var/www/html/file-uploading-app
+    volumes:
+      - ./:/var/www/html
+    tty: true
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    ports:
+      - '5050:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+  pgadmin_data:
