@@ -4,6 +4,7 @@
 
         <main class="app-content">
             <FileUploadTest />
+            <Messages />
         </main>
 
         <Footer />
@@ -14,6 +15,14 @@
 import Header from "./components/layouts/Header.vue";
 import Footer from "./components/layouts/Footer.vue";
 import FileUploadTest from "./components/FileUploadTest.vue";
+import Messages from "./components/Messages.vue";
+
+console.log("Components loaded:", {
+    Header,
+    Footer,
+    FileUploadTest,
+    Messages,
+});
 </script>
 
 <style scoped>

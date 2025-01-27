@@ -9,6 +9,8 @@ services:
     volumes:
       - ./:/var/www/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - default
     depends_on:
       - app
 
@@ -16,15 +18,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: curotec-file-uploading-service-app # Add this line
+    container_name: curotec-file-uploading-service-app
     user: '${UID:-1000}:${GID:-1000}'
+    working_dir: /var/www/html
     volumes:
       - ./:/var/www/html
     ports:
       - '9001:9000'
-      - '5174:5173'
     environment:
       - NODE_OPTIONS=--max-old-space-size=8192
+    networks:
+      - default
   postgres:
     image: postgres:15
     container_name: laravel-postgres
@@ -36,17 +40,20 @@ services:
       POSTGRES_USER: curotec
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
 
   node:
     image: node:18
     container_name: laravel-node-upload
-    working_dir: /var/www/html/file-uploading-app
+    working_dir: /var/www/html
     volumes:
-      - ./:/var/www/html/file-uploading-app
+      - ./:/var/www/html
     tty: true
     ports:
       - '5173:5173'
-
+    networks:
+      - default
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin4
@@ -59,6 +66,21 @@ services:
       - pgadmin_data:/var/lib/pgadmin
     depends_on:
       - postgres
+    networks:
+      - default
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: laravel-ngrok
+    ports:
+      - '8040:4040' # Changed from 4040:4040
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    command: http nginx:80
+    networks:
+      - default
+    depends_on:
+      - nginx
 
 volumes:
   postgres_data:

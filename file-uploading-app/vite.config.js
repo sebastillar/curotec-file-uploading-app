@@ -3,16 +3,6 @@ import laravel from "laravel-vite-plugin";
 import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
-    server: {
-        host: "0.0.0.0",
-        hmr: {
-            host: "localhost",
-        },
-        watch: {
-            usePolling: true,
-        },
-        port: 5173,
-    },
     plugins: [
         laravel({
             input: ["resources/css/app.css", "resources/js/app.js"],
@@ -27,4 +17,15 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        host: "0.0.0.0",
+        hmr: {
+            host: "localhost",
+            protocol: "ws",
+        },
+        watch: {
+            usePolling: true,
+        },
+        cors: true, // Enable CORS for all origins
+    },
 });
