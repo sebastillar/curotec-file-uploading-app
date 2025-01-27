@@ -9,7 +9,9 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    libpq-dev
+    libpq-dev \
+    libexif-dev \
+    && docker-php-ext-install exif
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_pgsql

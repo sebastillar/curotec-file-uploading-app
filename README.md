@@ -25,7 +25,7 @@ A modern file upload and collaboration platform built with Laravel 10 and Vue 3,
 
 - Laravel 10+
 - PostgreSQL
-- PHP 8.1+
+- PHP 8.2+
 
 ### Frontend
 
@@ -37,6 +37,18 @@ A modern file upload and collaboration platform built with Laravel 10 and Vue 3,
 - laravel/sanctum
 - pusher/pusher-php-server
 - spatie/laravel-medialibrary
+
+## Required PHP Extensions
+
+The following PHP extensions must be installed:
+
+- pdo_pgsql (for PostgreSQL database)
+- exif (for Media Library)
+- sodium (for encryption)
+- fileinfo (for file handling)
+- gd (for image processing)
+
+These extensions are installed in the Docker container via the Dockerfile
 
 ## 📋 Prerequisites
 
