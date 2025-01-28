@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Events\TestMessage;
 use Illuminate\Support\Facades\Log;
 
+require __DIR__.'/api.php';
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');

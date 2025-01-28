@@ -1,0 +1,1058 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Laravel Documentation</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../docs/css/theme-default.style.css" media="screen">
+    <link rel="stylesheet" href="../docs/css/theme-default.print.css" media="print">
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/obsidian.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js"></script>
+
+    <style id="language-style">
+        /* starts out as display none and is replaced with js later  */
+                    body .content .bash-example code { display: none; }
+                    body .content .javascript-example code { display: none; }
+            </style>
+
+    <script>
+        var tryItOutBaseUrl = "https://0684-190-64-82-98.ngrok-free.app";
+        var useCsrf = Boolean();
+        var csrfUrl = "/sanctum/csrf-cookie";
+    </script>
+    <script src="../docs/js/tryitout-4.39.0.js"></script>
+
+    <script src="../docs/js/theme-default-4.39.0.js"></script>
+
+</head>
+
+<body data-languages="[&quot;bash&quot;,&quot;javascript&quot;]">
+
+<a href="#" id="nav-button">
+    <span>
+        MENU
+        <img src="../docs/images/navbar.png" alt="navbar-image"/>
+    </span>
+</a>
+<div class="tocify-wrapper">
+    
+            <div class="lang-selector">
+                                            <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                                            <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                    </div>
+    
+    <div class="search">
+        <input type="text" class="search" id="input-search" placeholder="Search">
+    </div>
+
+    <div id="toc">
+                    <ul id="tocify-header-introduction" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="introduction">
+                    <a href="#introduction">Introduction</a>
+                </li>
+                            </ul>
+                    <ul id="tocify-header-authenticating-requests" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="authenticating-requests">
+                    <a href="#authenticating-requests">Authenticating requests</a>
+                </li>
+                            </ul>
+                    <ul id="tocify-header-endpoints" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="endpoints">
+                    <a href="#endpoints">Endpoints</a>
+                </li>
+                                    <ul id="tocify-subheader-endpoints" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="endpoints-GETapi-csrf-cookie">
+                                <a href="#endpoints-GETapi-csrf-cookie">Return an empty response simply to trigger the storage of the CSRF cookie in the browser.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-file-management" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="file-management">
+                    <a href="#file-management">File Management</a>
+                </li>
+                                    <ul id="tocify-subheader-file-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="file-management-POSTapi-files--fileId--versions">
+                                <a href="#file-management-POSTapi-files--fileId--versions">Add New Version</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="file-management-GETapi-files--fileId--versions">
+                                <a href="#file-management-GETapi-files--fileId--versions">Get File Versions</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="file-management-POSTapi-files-versions--versionId--comments">
+                                <a href="#file-management-POSTapi-files-versions--versionId--comments">Add Version Comment</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="file-management-GETapi-files-versions--versionId--download">
+                                <a href="#file-management-GETapi-files-versions--versionId--download">Download Version File</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="file-management-GETapi-files-latest">
+                                <a href="#file-management-GETapi-files-latest">Get Latest Uploads</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+            </div>
+
+    <ul class="toc-footer" id="toc-footer">
+                    <li style="padding-bottom: 5px;"><a href="../docs/collection.json">View Postman collection</a></li>
+                            <li style="padding-bottom: 5px;"><a href="../docs/openapi.yaml">View OpenAPI spec</a></li>
+                <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
+    </ul>
+
+    <ul class="toc-footer" id="last-updated">
+        <li>Last updated: January 28, 2025</li>
+    </ul>
+</div>
+
+<div class="page-wrapper">
+    <div class="dark-box"></div>
+    <div class="content">
+        <h1 id="introduction">Introduction</h1>
+<aside>
+    <strong>Base URL</strong>: <code>https://0684-190-64-82-98.ngrok-free.app</code>
+</aside>
+<p>This documentation aims to provide all the information you need to work with our API.</p>
+<aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
+You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
+
+        <h1 id="authenticating-requests">Authenticating requests</h1>
+<p>This API is not authenticated.</p>
+
+        <h1 id="endpoints">Endpoints</h1>
+
+    
+
+                                <h2 id="endpoints-GETapi-csrf-cookie">Return an empty response simply to trigger the storage of the CSRF cookie in the browser.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-csrf-cookie">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "https://0684-190-64-82-98.ngrok-free.app/api/csrf-cookie" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "https://0684-190-64-82-98.ngrok-free.app/api/csrf-cookie"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-csrf-cookie">
+            <blockquote>
+            <p>Example response (204):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+vary: Origin
+set-cookie: XSRF-TOKEN=eyJpdiI6IkgvbFBOcHVLSHhoa2MvbkMwQlNyR0E9PSIsInZhbHVlIjoiME13TlRYd2Y0THorOXhid1R5dFNUdExOb3VnaFU5emdRdGFabEVrMmdCR0Q4dHJFQTIvSmZBTmhGYWk3S1hhOFMwVE1ESC9zMUtWdXZXcFVxYWk5eWFaSWV5U0RwYXFTR0VsaFpaWmNlVk4zbWpHbjJQQ3hETzFSZU9JZURZTmUiLCJtYWMiOiI0ZTZlOTgzMTY0OGY0YzUxOWFiODM4MzFlZDhmYzE0YzEzN2ExYTFkZTM1NWJhMTg1YWE2ZWZmMjgxYmI3MTFhIiwidGFnIjoiIn0%3D; expires=Tue, 28 Jan 2025 15:30:36 GMT; Max-Age=7200; path=/; domain=0684-190-64-82-98.ngrok-free.app; secure; samesite=none; laravel_session=eyJpdiI6Imc5QkNlVGFXcDRQcEE4cmQ2T2N2c2c9PSIsInZhbHVlIjoiaVhUeGZjajRLRUFudkVPMW00Vld6aW1vUW5BRUhKRDBHOWs1SXBRWFV6K3dYWFpzTnNtYTNYOGdlRWxVL3FLb1p2QmZnYjZtcWxZWGZ1UUVtOU4vRjRYYmdkZk9rcktWUDBCNk1YVVg3N3lENGJsenZ2ZVpXRnBLQlNmOElaZEMiLCJtYWMiOiIwMWM0MzYwM2E0YTZiMjZiNzg4MGM0MjY0MTcwMzAwMGU4MzlkNjE2MzhiNmIxNDgxYzEzYTMxYjEzMDc1ZTA0IiwidGFnIjoiIn0%3D; expires=Tue, 28 Jan 2025 15:30:36 GMT; Max-Age=7200; path=/; domain=0684-190-64-82-98.ngrok-free.app; secure; httponly; samesite=none; yIYlfnUZFPAueBeiovpwbR3vrsP7tfVPlxcuPXEb=eyJpdiI6IlFvRjlDa3dXRW4wZ3BWb0FzaDh1anc9PSIsInZhbHVlIjoiLzN4SzhYVDFxdktObk5UcGpNaXJWNHBYM2Z2NnNHUm9aT204Rkp1QnBGemFIaTVnZzRwU01VaWgxK1p6RWZEQ2xxMzNGeVkyVFd6TUJBSlNGcW1rRGlCUnFUY01TMFhkQmFkOTFZSDkwK05LZjNYSXY0MHdTQVJ1YVcwWW9aTjdaUTZQV0xXbm5hTEdPTWNLWTN0dDZ0UTNZNmkzMFEyUlFvRVY0Ym9KaDlrNHVYQTAvRVFsMTRZM2VIVGpvSTRYWEVycFh5dWtoMDBHZzFBRDRneVV4R2RabnNIQ0thMm5iNXd6U2pFQ04rbTh3UmQyN3B6OTlTU1JDS2gzVWpJeVRQZ2xpM2pZNHJLakJFUGZkd2xuUkRjKzZURUFiTnpFL0dRRC9aN1hEWjVqc1ZTWkNYeEVDQkFuNlZyTXkyaEM2cTcwblZkREwrTVIxUzdxcWtyNmRJMGZlQ2xsM1JaNDR0NXNIZ3VEMysvU052SXBjeFJkOW5Nd09oR0V5K2M0SEJrOFYySFo5dktRQzlHbmpUblBmaWZ3QWtDSDhMKzNOMWlWUWgxdGRRZz0iLCJtYWMiOiIxYjhjMjRlYTAxYmJiNTI2NGEwYzQ3ZTFjYmMyY2U2OTE3YzBjNWI0N2Y5ZjU1YjBiZTdjZjJhOTcxYWFlZmY3IiwidGFnIjoiIn0%3D; expires=Tue, 28 Jan 2025 15:30:36 GMT; Max-Age=7200; path=/; domain=0684-190-64-82-98.ngrok-free.app; secure; httponly; samesite=none
+ </code></pre></details>         <pre>
+<code>Empty response</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-csrf-cookie" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-csrf-cookie"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-csrf-cookie"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-csrf-cookie" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-csrf-cookie">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-csrf-cookie" data-method="GET"
+      data-path="api/csrf-cookie"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-csrf-cookie', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-csrf-cookie"
+                    onclick="tryItOut('GETapi-csrf-cookie');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-csrf-cookie"
+                    onclick="cancelTryOut('GETapi-csrf-cookie');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-csrf-cookie"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/csrf-cookie</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-csrf-cookie"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-csrf-cookie"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                <h1 id="file-management">File Management</h1>
+
+    <p>APIs for managing files, versions and comments</p>
+
+                                <h2 id="file-management-POSTapi-files--fileId--versions">Add New Version</h2>
+
+<p>
+</p>
+
+<p>Add a new version to an existing file.</p>
+
+<span id="example-requests-POSTapi-files--fileId--versions">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "https://0684-190-64-82-98.ngrok-free.app/api/files/1/versions" \
+    --header "Content-Type: multipart/form-data" \
+    --header "Accept: application/json" \
+    --form "file=@/tmp/phppmgztp" </code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "https://0684-190-64-82-98.ngrok-free.app/api/files/1/versions"
+);
+
+const headers = {
+    "Content-Type": "multipart/form-data",
+    "Accept": "application/json",
+};
+
+const body = new FormData();
+body.append('file', document.querySelector('input[name="file"]').files[0]);
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-files--fileId--versions">
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;New version added successfully&quot;,
+    &quot;version&quot;: {
+        &quot;id&quot;: 1,
+        &quot;version_number&quot;: 2,
+        &quot;path&quot;: &quot;files/1/version_2.pdf&quot;,
+        &quot;download_url&quot;: &quot;http://example.com/api/files/versions/1/download&quot;,
+        &quot;created_at&quot;: &quot;2024-01-27T12:00:00Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-01-27T12:00:00Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-files--fileId--versions" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-files--fileId--versions"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-files--fileId--versions"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-files--fileId--versions" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-files--fileId--versions">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-files--fileId--versions" data-method="POST"
+      data-path="api/files/{fileId}/versions"
+      data-authed="0"
+      data-hasfiles="1"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-files--fileId--versions', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-files--fileId--versions"
+                    onclick="tryItOut('POSTapi-files--fileId--versions');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-files--fileId--versions"
+                    onclick="cancelTryOut('POSTapi-files--fileId--versions');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-files--fileId--versions"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/files/{fileId}/versions</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-files--fileId--versions"
+               value="multipart/form-data"
+               data-component="header">
+    <br>
+<p>Example: <code>multipart/form-data</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-files--fileId--versions"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>fileId</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="fileId"                data-endpoint="POSTapi-files--fileId--versions"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the file. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>file</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+ &nbsp;
+                <input type="file" style="display: none"
+                              name="file"                data-endpoint="POSTapi-files--fileId--versions"
+               value=""
+               data-component="body">
+    <br>
+<p>The new version file. Must not exceed 10MB. Example: <code>/tmp/phppmgztp</code></p>
+        </div>
+        </form>
+
+                    <h2 id="file-management-GETapi-files--fileId--versions">Get File Versions</h2>
+
+<p>
+</p>
+
+<p>Retrieve all versions of a specific file.</p>
+
+<span id="example-requests-GETapi-files--fileId--versions">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "https://0684-190-64-82-98.ngrok-free.app/api/files/1/versions" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "https://0684-190-64-82-98.ngrok-free.app/api/files/1/versions"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-files--fileId--versions">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;version_number&quot;: 2,
+            &quot;path&quot;: &quot;files/1/version_2.pdf&quot;,
+            &quot;download_url&quot;: &quot;http://example.com/api/files/versions/1/download&quot;,
+            &quot;comments_count&quot;: 3,
+            &quot;created_at&quot;: &quot;2024-01-27T12:00:00Z&quot;,
+            &quot;updated_at&quot;: &quot;2024-01-27T12:00:00Z&quot;
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-files--fileId--versions" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-files--fileId--versions"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-files--fileId--versions"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-files--fileId--versions" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-files--fileId--versions">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-files--fileId--versions" data-method="GET"
+      data-path="api/files/{fileId}/versions"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-files--fileId--versions', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-files--fileId--versions"
+                    onclick="tryItOut('GETapi-files--fileId--versions');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-files--fileId--versions"
+                    onclick="cancelTryOut('GETapi-files--fileId--versions');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-files--fileId--versions"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/files/{fileId}/versions</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-files--fileId--versions"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-files--fileId--versions"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>fileId</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="fileId"                data-endpoint="GETapi-files--fileId--versions"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the file. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="file-management-POSTapi-files-versions--versionId--comments">Add Version Comment</h2>
+
+<p>
+</p>
+
+<p>Add a comment to a specific file version.</p>
+
+<span id="example-requests-POSTapi-files-versions--versionId--comments">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "https://0684-190-64-82-98.ngrok-free.app/api/files/versions/1/comments" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"comment\": \"This version includes the requested changes.\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "https://0684-190-64-82-98.ngrok-free.app/api/files/versions/1/comments"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "comment": "This version includes the requested changes."
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-files-versions--versionId--comments">
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Comment added successfully&quot;,
+    &quot;comment&quot;: {
+        &quot;id&quot;: 1,
+        &quot;comment&quot;: &quot;This version includes the requested changes.&quot;,
+        &quot;created_at&quot;: &quot;2024-01-27T12:00:00Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-01-27T12:00:00Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-files-versions--versionId--comments" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-files-versions--versionId--comments"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-files-versions--versionId--comments"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-files-versions--versionId--comments" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-files-versions--versionId--comments">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-files-versions--versionId--comments" data-method="POST"
+      data-path="api/files/versions/{versionId}/comments"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-files-versions--versionId--comments', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-files-versions--versionId--comments"
+                    onclick="tryItOut('POSTapi-files-versions--versionId--comments');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-files-versions--versionId--comments"
+                    onclick="cancelTryOut('POSTapi-files-versions--versionId--comments');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-files-versions--versionId--comments"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/files/versions/{versionId}/comments</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-files-versions--versionId--comments"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-files-versions--versionId--comments"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>versionId</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="versionId"                data-endpoint="POSTapi-files-versions--versionId--comments"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the version. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>comment</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="comment"                data-endpoint="POSTapi-files-versions--versionId--comments"
+               value="This version includes the requested changes."
+               data-component="body">
+    <br>
+<p>The comment text. Must not exceed 1000 characters. Example: <code>This version includes the requested changes.</code></p>
+        </div>
+        </form>
+
+                    <h2 id="file-management-GETapi-files-versions--versionId--download">Download Version File</h2>
+
+<p>
+</p>
+
+<p>Download a specific version of a file.</p>
+
+<span id="example-requests-GETapi-files-versions--versionId--download">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "https://0684-190-64-82-98.ngrok-free.app/api/files/versions/1/download" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "https://0684-190-64-82-98.ngrok-free.app/api/files/versions/1/download"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-files-versions--versionId--download">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">file</code>
+ </pre>
+            <blockquote>
+            <p>Example response (403):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;You do not have permission to download this file&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Version not found&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-files-versions--versionId--download" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-files-versions--versionId--download"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-files-versions--versionId--download"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-files-versions--versionId--download" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-files-versions--versionId--download">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-files-versions--versionId--download" data-method="GET"
+      data-path="api/files/versions/{versionId}/download"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-files-versions--versionId--download', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-files-versions--versionId--download"
+                    onclick="tryItOut('GETapi-files-versions--versionId--download');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-files-versions--versionId--download"
+                    onclick="cancelTryOut('GETapi-files-versions--versionId--download');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-files-versions--versionId--download"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/files/versions/{versionId}/download</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-files-versions--versionId--download"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-files-versions--versionId--download"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>versionId</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="versionId"                data-endpoint="GETapi-files-versions--versionId--download"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the version to download. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="file-management-GETapi-files-latest">Get Latest Uploads</h2>
+
+<p>
+</p>
+
+<p>Retrieve the latest file uploads with pagination.</p>
+
+<span id="example-requests-GETapi-files-latest">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "https://0684-190-64-82-98.ngrok-free.app/api/files/latest?limit=15&amp;page=1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"limit\": 9,
+    \"page\": 20
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "https://0684-190-64-82-98.ngrok-free.app/api/files/latest"
+);
+
+const params = {
+    "limit": "15",
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "limit": 9,
+    "page": 20
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-files-latest">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;document.pdf&quot;,
+            &quot;extension&quot;: &quot;pdf&quot;,
+            &quot;size_formatted&quot;: &quot;1.00 MB&quot;,
+            &quot;created_at&quot;: &quot;2024-01-27T12:00:00Z&quot;
+        }
+    ],
+    &quot;meta&quot;: {
+        &quot;current_page&quot;: 1,
+        &quot;last_page&quot;: 5,
+        &quot;per_page&quot;: 10,
+        &quot;total&quot;: 50
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-files-latest" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-files-latest"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-files-latest"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-files-latest" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-files-latest">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-files-latest" data-method="GET"
+      data-path="api/files/latest"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-files-latest', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-files-latest"
+                    onclick="tryItOut('GETapi-files-latest');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-files-latest"
+                    onclick="cancelTryOut('GETapi-files-latest');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-files-latest"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/files/latest</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-files-latest"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-files-latest"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>limit</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="limit"                data-endpoint="GETapi-files-latest"
+               value="15"
+               data-component="query">
+    <br>
+<p>The number of items per page. Default: 10 Example: <code>15</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-files-latest"
+               value="1"
+               data-component="query">
+    <br>
+<p>The page number. Default: 1 Example: <code>1</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>limit</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="limit"                data-endpoint="GETapi-files-latest"
+               value="9"
+               data-component="body">
+    <br>
+<p>Must be at least 1. Must not be greater than 50. Example: <code>9</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-files-latest"
+               value="20"
+               data-component="body">
+    <br>
+<p>Must be at least 1. Example: <code>20</code></p>
+        </div>
+        </form>
+
+            
+
+        
+    </div>
+    <div class="dark-box">
+                    <div class="lang-selector">
+                                                        <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                                                        <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                            </div>
+            </div>
+</div>
+</body>
+</html>

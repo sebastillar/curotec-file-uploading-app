@@ -1,0 +1,373 @@
+name: 'File Management'
+description: |-
+
+  APIs for managing files, versions and comments
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: 'api/files/{fileId}/versions'
+    metadata:
+      groupName: 'File Management'
+      groupDescription: |-
+
+        APIs for managing files, versions and comments
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Add New Version'
+      description: 'Add a new version to an existing file.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters:
+      fileId:
+        name: fileId
+        description: 'The ID of the file.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      fileId: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      file:
+        name: file
+        description: 'The new version file. Must not exceed 10MB.'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters: []
+    fileParameters:
+      file: null
+    responses:
+      -
+        status: 201
+        content: |-
+          {
+            "message": "New version added successfully",
+            "version": {
+              "id": 1,
+              "version_number": 2,
+              "path": "files/1/version_2.pdf",
+              "download_url": "http://example.com/api/files/versions/1/download",
+              "created_at": "2024-01-27T12:00:00Z",
+              "updated_at": "2024-01-27T12:00:00Z"
+            }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/files/{fileId}/versions'
+    metadata:
+      groupName: 'File Management'
+      groupDescription: |-
+
+        APIs for managing files, versions and comments
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get File Versions'
+      description: 'Retrieve all versions of a specific file.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      fileId:
+        name: fileId
+        description: 'The ID of the file.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      fileId: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "data": [
+              {
+                "id": 1,
+                "version_number": 2,
+                "path": "files/1/version_2.pdf",
+                "download_url": "http://example.com/api/files/versions/1/download",
+                "comments_count": 3,
+                "created_at": "2024-01-27T12:00:00Z",
+                "updated_at": "2024-01-27T12:00:00Z"
+              }
+            ]
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/files/versions/{versionId}/comments'
+    metadata:
+      groupName: 'File Management'
+      groupDescription: |-
+
+        APIs for managing files, versions and comments
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Add Version Comment'
+      description: 'Add a comment to a specific file version.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      versionId:
+        name: versionId
+        description: 'The ID of the version.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      versionId: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      comment:
+        name: comment
+        description: 'The comment text. Must not exceed 1000 characters.'
+        required: true
+        example: 'This version includes the requested changes.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      comment: 'This version includes the requested changes.'
+    fileParameters: []
+    responses:
+      -
+        status: 201
+        content: |-
+          {
+            "message": "Comment added successfully",
+            "comment": {
+              "id": 1,
+              "comment": "This version includes the requested changes.",
+              "created_at": "2024-01-27T12:00:00Z",
+              "updated_at": "2024-01-27T12:00:00Z"
+            }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/files/versions/{versionId}/download'
+    metadata:
+      groupName: 'File Management'
+      groupDescription: |-
+
+        APIs for managing files, versions and comments
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Download Version File'
+      description: 'Download a specific version of a file.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      versionId:
+        name: versionId
+        description: 'The ID of the version to download.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      versionId: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: file
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: |-
+          {
+            "message": "You do not have permission to download this file"
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: |-
+          {
+            "message": "Version not found"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/files/latest
+    metadata:
+      groupName: 'File Management'
+      groupDescription: |-
+
+        APIs for managing files, versions and comments
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get Latest Uploads'
+      description: 'Retrieve the latest file uploads with pagination.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      limit:
+        name: limit
+        description: 'The number of items per page. Default: 10'
+        required: false
+        example: 15
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+      page:
+        name: page
+        description: 'The page number. Default: 1'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanQueryParameters:
+      limit: 15
+      page: 1
+    bodyParameters:
+      limit:
+        name: limit
+        description: 'Must be at least 1. Must not be greater than 50.'
+        required: false
+        example: 9
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      page:
+        name: page
+        description: 'Must be at least 1.'
+        required: false
+        example: 20
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      limit: 9
+      page: 20
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "data": [
+              {
+                "id": 1,
+                "name": "document.pdf",
+                "extension": "pdf",
+                "size_formatted": "1.00 MB",
+                "created_at": "2024-01-27T12:00:00Z"
+              }
+            ],
+            "meta": {
+              "current_page": 1,
+              "last_page": 5,
+              "per_page": 10,
+              "total": 50
+            }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
