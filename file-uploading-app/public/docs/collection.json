@@ -1,0 +1,329 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "https:\/\/0684-190-64-82-98.ngrok-free.app"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "531e2f4c-55af-443a-9a32-b29a7f5440cc",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "Return an empty response simply to trigger the storage of the CSRF cookie in the browser.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/csrf-cookie",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/csrf-cookie"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                },
+                                {
+                                    "key": "set-cookie",
+                                    "value": "XSRF-TOKEN=eyJpdiI6IkgvbFBOcHVLSHhoa2MvbkMwQlNyR0E9PSIsInZhbHVlIjoiME13TlRYd2Y0THorOXhid1R5dFNUdExOb3VnaFU5emdRdGFabEVrMmdCR0Q4dHJFQTIvSmZBTmhGYWk3S1hhOFMwVE1ESC9zMUtWdXZXcFVxYWk5eWFaSWV5U0RwYXFTR0VsaFpaWmNlVk4zbWpHbjJQQ3hETzFSZU9JZURZTmUiLCJtYWMiOiI0ZTZlOTgzMTY0OGY0YzUxOWFiODM4MzFlZDhmYzE0YzEzN2ExYTFkZTM1NWJhMTg1YWE2ZWZmMjgxYmI3MTFhIiwidGFnIjoiIn0%3D; expires=Tue, 28 Jan 2025 15:30:36 GMT; Max-Age=7200; path=\/; domain=0684-190-64-82-98.ngrok-free.app; secure; samesite=none; laravel_session=eyJpdiI6Imc5QkNlVGFXcDRQcEE4cmQ2T2N2c2c9PSIsInZhbHVlIjoiaVhUeGZjajRLRUFudkVPMW00Vld6aW1vUW5BRUhKRDBHOWs1SXBRWFV6K3dYWFpzTnNtYTNYOGdlRWxVL3FLb1p2QmZnYjZtcWxZWGZ1UUVtOU4vRjRYYmdkZk9rcktWUDBCNk1YVVg3N3lENGJsenZ2ZVpXRnBLQlNmOElaZEMiLCJtYWMiOiIwMWM0MzYwM2E0YTZiMjZiNzg4MGM0MjY0MTcwMzAwMGU4MzlkNjE2MzhiNmIxNDgxYzEzYTMxYjEzMDc1ZTA0IiwidGFnIjoiIn0%3D; expires=Tue, 28 Jan 2025 15:30:36 GMT; Max-Age=7200; path=\/; domain=0684-190-64-82-98.ngrok-free.app; secure; httponly; samesite=none; yIYlfnUZFPAueBeiovpwbR3vrsP7tfVPlxcuPXEb=eyJpdiI6IlFvRjlDa3dXRW4wZ3BWb0FzaDh1anc9PSIsInZhbHVlIjoiLzN4SzhYVDFxdktObk5UcGpNaXJWNHBYM2Z2NnNHUm9aT204Rkp1QnBGemFIaTVnZzRwU01VaWgxK1p6RWZEQ2xxMzNGeVkyVFd6TUJBSlNGcW1rRGlCUnFUY01TMFhkQmFkOTFZSDkwK05LZjNYSXY0MHdTQVJ1YVcwWW9aTjdaUTZQV0xXbm5hTEdPTWNLWTN0dDZ0UTNZNmkzMFEyUlFvRVY0Ym9KaDlrNHVYQTAvRVFsMTRZM2VIVGpvSTRYWEVycFh5dWtoMDBHZzFBRDRneVV4R2RabnNIQ0thMm5iNXd6U2pFQ04rbTh3UmQyN3B6OTlTU1JDS2gzVWpJeVRQZ2xpM2pZNHJLakJFUGZkd2xuUkRjKzZURUFiTnpFL0dRRC9aN1hEWjVqc1ZTWkNYeEVDQkFuNlZyTXkyaEM2cTcwblZkREwrTVIxUzdxcWtyNmRJMGZlQ2xsM1JaNDR0NXNIZ3VEMysvU052SXBjeFJkOW5Nd09oR0V5K2M0SEJrOFYySFo5dktRQzlHbmpUblBmaWZ3QWtDSDhMKzNOMWlWUWgxdGRRZz0iLCJtYWMiOiIxYjhjMjRlYTAxYmJiNTI2NGEwYzQ3ZTFjYmMyY2U2OTE3YzBjNWI0N2Y5ZjU1YjBiZTdjZjJhOTcxYWFlZmY3IiwidGFnIjoiIn0%3D; expires=Tue, 28 Jan 2025 15:30:36 GMT; Max-Age=7200; path=\/; domain=0684-190-64-82-98.ngrok-free.app; secure; httponly; samesite=none"
+                                }
+                            ],
+                            "code": 204,
+                            "body": "",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "File Management",
+            "description": "\nAPIs for managing files, versions and comments",
+            "item": [
+                {
+                    "name": "Add New Version",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/files\/:fileId\/versions",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/files\/:fileId\/versions",
+                            "variable": [
+                                {
+                                    "id": "fileId",
+                                    "key": "fileId",
+                                    "value": "1",
+                                    "description": "The ID of the file."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "file",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "Add a new version to an existing file.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"message\": \"New version added successfully\",\n  \"version\": {\n    \"id\": 1,\n    \"version_number\": 2,\n    \"path\": \"files\/1\/version_2.pdf\",\n    \"download_url\": \"http:\/\/example.com\/api\/files\/versions\/1\/download\",\n    \"created_at\": \"2024-01-27T12:00:00Z\",\n    \"updated_at\": \"2024-01-27T12:00:00Z\"\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get File Versions",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/files\/:fileId\/versions",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/files\/:fileId\/versions",
+                            "variable": [
+                                {
+                                    "id": "fileId",
+                                    "key": "fileId",
+                                    "value": "1",
+                                    "description": "The ID of the file."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Retrieve all versions of a specific file.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"version_number\": 2,\n      \"path\": \"files\/1\/version_2.pdf\",\n      \"download_url\": \"http:\/\/example.com\/api\/files\/versions\/1\/download\",\n      \"comments_count\": 3,\n      \"created_at\": \"2024-01-27T12:00:00Z\",\n      \"updated_at\": \"2024-01-27T12:00:00Z\"\n    }\n  ]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Add Version Comment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/files\/versions\/:versionId\/comments",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/files\/versions\/:versionId\/comments",
+                            "variable": [
+                                {
+                                    "id": "versionId",
+                                    "key": "versionId",
+                                    "value": "1",
+                                    "description": "The ID of the version."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"comment\":\"This version includes the requested changes.\"}"
+                        },
+                        "description": "Add a comment to a specific file version.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"message\": \"Comment added successfully\",\n  \"comment\": {\n    \"id\": 1,\n    \"comment\": \"This version includes the requested changes.\",\n    \"created_at\": \"2024-01-27T12:00:00Z\",\n    \"updated_at\": \"2024-01-27T12:00:00Z\"\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Download Version File",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/files\/versions\/:versionId\/download",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/files\/versions\/:versionId\/download",
+                            "variable": [
+                                {
+                                    "id": "versionId",
+                                    "key": "versionId",
+                                    "value": "1",
+                                    "description": "The ID of the version to download."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Download a specific version of a file.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "file",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\n  \"message\": \"You do not have permission to download this file\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"message\": \"Version not found\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Latest Uploads",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/files\/latest",
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "15",
+                                    "description": "The number of items per page. Default: 10",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "The page number. Default: 1",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/files\/latest?limit=15&page=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"limit\":9,\"page\":20}"
+                        },
+                        "description": "Retrieve the latest file uploads with pagination.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"document.pdf\",\n      \"extension\": \"pdf\",\n      \"size_formatted\": \"1.00 MB\",\n      \"created_at\": \"2024-01-27T12:00:00Z\"\n    }\n  ],\n  \"meta\": {\n    \"current_page\": 1,\n    \"last_page\": 5,\n    \"per_page\": 10,\n    \"total\": 50\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

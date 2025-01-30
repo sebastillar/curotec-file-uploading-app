@@ -13,6 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            FileSeeder::class,
+            FileVersionSeeder::class,
+            FileVersionCommentSeeder::class,
+        ]);
+
         // User::factory(10)->create();
 
         User::factory()->create([
