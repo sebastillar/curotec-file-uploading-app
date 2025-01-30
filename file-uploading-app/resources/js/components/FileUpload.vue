@@ -20,7 +20,6 @@ export default {
                     await fileStore.uploadFile(file);
                 }
 
-                // Clear the file input
                 if (fileInput.value) {
                     fileInput.value.value = "";
                 }
@@ -58,7 +57,6 @@ export default {
             {{ uploadingFiles.length ? "Uploading..." : "Upload Files" }}
         </button>
 
-        <!-- Upload Progress -->
         <div v-if="uploadingFiles.length" class="upload-progress">
             <div
                 v-for="file in uploadingFiles"

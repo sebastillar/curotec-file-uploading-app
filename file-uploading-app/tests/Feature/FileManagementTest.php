@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\File;
 use App\Models\FileVersion;
-use App\Models\FileVersionComment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;

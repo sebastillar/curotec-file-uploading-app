@@ -420,23 +420,31 @@ class FileServiceTest extends TestCase
             ])
         ]);
 
-        // Expectations
-        $this->fileRepository->shouldReceive('scopeQuery')
-            ->once()
-            ->andReturnSelf();
-
-        $this->fileRepository->shouldReceive('paginate')
+        // Create a query builder mock
+        $queryBuilder = Mockery::mock(\Illuminate\Database\Eloquent\Builder::class);
+        $queryBuilder->shouldReceive('paginate')
             ->once()
             ->with($limit)
-            ->andReturn($files);
+            ->andReturn(new \Illuminate\Pagination\LengthAwarePaginator(
+                $files,
+                $files->count(),
+                $limit,
+                1
+            ));
+
+        // Expectations
+        $this->fileRepository->shouldReceive('getLatestWithVersions')
+            ->once()
+            ->andReturn($queryBuilder);
 
         // Act
         $result = $this->fileService->getLatestUploads($limit);
 
         // Assert
-        $this->assertCount(2, $result);
-        $this->assertEquals($files[0]->id, $result[0]->id);
-        $this->assertEquals($files[1]->id, $result[1]->id);
+        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $result);
+        $this->assertCount(2, $result->items());
+        $this->assertEquals($files[0]->id, $result->items()[0]->id);
+        $this->assertEquals($files[1]->id, $result->items()[1]->id);
     }
 
     protected function tearDown(): void

@@ -31,7 +31,6 @@ onMounted(async () => {
     try {
         await fileStore.fetchFiles();
 
-        // Check if Echo exists before binding events
         if (window.Echo) {
             fileStore.bindFileUploadedEvent();
         } else {
@@ -43,7 +42,6 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
-    // Check if Echo exists before unbinding
     if (window.Echo) {
         fileStore.unbindFileUploadedEvent();
     }

@@ -26,7 +26,6 @@
             </div>
         </div>
 
-        <!-- Upload Progress -->
         <div v-if="uploadingFiles.length > 0" class="upload-progress">
             <div
                 v-for="file in uploadingFiles"
