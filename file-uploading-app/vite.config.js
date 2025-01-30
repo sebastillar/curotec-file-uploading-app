@@ -26,6 +26,9 @@ export default defineConfig({
         watch: {
             usePolling: true,
         },
-        cors: true, // Enable CORS for all origins
+        cors: {
+            origin: true,
+            credentials: true,
+        },
     },
 });

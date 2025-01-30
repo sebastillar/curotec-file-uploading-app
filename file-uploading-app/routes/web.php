@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('sanctum/csrf-cookie', function () {
     return response()->json(['message' => 'CSRF cookie set'], 204);
 });
+
+Route::get('{any}', function () {
+    return view('welcome');
+})->where('any', '.*');

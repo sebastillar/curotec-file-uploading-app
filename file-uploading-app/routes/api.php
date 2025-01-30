@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FileCollaboratorController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 // Public routes
 Route::controller(AuthController::class)->group(function () {
@@ -49,4 +50,3 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('files.versions.download');
     });
 });
-

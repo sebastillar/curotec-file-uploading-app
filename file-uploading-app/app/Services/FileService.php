@@ -145,8 +145,13 @@ class FileService implements FileServiceInterface
     public function getLatestUploads(int $limit = 10)
     {
         try {
+            $user = auth()->user();
 
-            return $this->fileRepository->getLatestWithVersions($limit)->paginate($limit);
+            if (!$user) {
+                throw new \Exception('User not authenticated');
+            }
+
+            return $this->fileRepository->getLatestWithVersions($user, $limit)->paginate($limit);
 
         } catch (\Exception $e) {
             \Log::error('Error in getLatestUploads:', [

@@ -22,7 +22,10 @@
                             : "Drop files here or click to browse"
                     }}
                 </p>
-                <p class="text-sm">Supported files: PDF</p>
+                <p class="text-sm">
+                    Supported files: 'jpeg', 'png', 'pdf', 'doc', 'docx', 'xls',
+                    'xlsx'
+                </p>
             </div>
         </div>
 
@@ -56,9 +59,9 @@
 
 <script setup>
 import { ref } from "vue";
-import { useFileStore } from "../stores/fileStore";
-import { useToastStore } from "../stores/toastStore";
-import { fireConfetti } from "../utils/confetti";
+import { useFileStore } from "../../stores/fileStore";
+import { useToastStore } from "../../stores/toastStore";
+import { fireConfetti } from "../../utils/confetti";
 import Toast from "./Toast.vue";
 
 const props = defineProps({
@@ -74,11 +77,23 @@ const fileStore = useFileStore();
 const toastStore = useToastStore();
 const fileInput = ref(null);
 const uploadingFiles = ref([]);
+const ALLOWED_FILE_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "application/pdf",
+    "application/msword", // .doc
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+    "application/vnd.ms-excel", // .xls
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+];
 
 const validateFile = (file) => {
     // Check file type
-    if (!file.type.includes("pdf")) {
-        toastStore.showToast("Only PDF files are allowed", "error");
+    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+        toastStore.showToast(
+            "Only JPEG, PNG, PDF, DOC, DOCX, and XLS files are allowed",
+            "error"
+        );
         return false;
     }
 

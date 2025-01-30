@@ -19,20 +19,37 @@ import { ref, onMounted, onUnmounted } from "vue";
 import FileList from "./FileList.vue";
 import FileUploader from "./FileUploader.vue";
 import FileVersionModal from "./FileVersionModal.vue";
-import { useFileStore } from "../stores/fileStore";
-import { useToastStore } from "../stores/toastStore";
+import { useFileStore } from "../../stores/fileStore";
+import { useToastStore } from "../../stores/toastStore";
+import axios from "axios";
 
 const fileStore = useFileStore();
 const toastStore = useToastStore();
 const selectedFile = ref(null);
 const showModal = ref(false);
 
+const fetchFiles = async () => {
+    try {
+        const response = await axios.get(
+            `${import.meta.env.VITE_APP_URL}/api/files`
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching files:", error);
+        throw error;
+    }
+};
+
 onMounted(async () => {
     try {
-        await fileStore.fetchFiles();
+        await fetchFiles();
 
         if (window.Echo) {
-            fileStore.bindFileUploadedEvent();
+            if (typeof window.Echo.channel === "function") {
+                fileStore.bindFileUploadedEvent();
+            } else {
+                console.warn("Echo channel is not a function");
+            }
         } else {
             console.warn("Echo is not initialized");
         }

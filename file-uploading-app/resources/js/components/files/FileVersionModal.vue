@@ -87,7 +87,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from "vue";
 import { formatDistanceToNow } from "date-fns";
-import { useFileStore } from "../stores/fileStore";
+import { useFileStore } from "../../stores/fileStore";
 import FileUploader from "./FileUploader.vue";
 
 const props = defineProps({
