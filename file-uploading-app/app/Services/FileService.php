@@ -22,12 +22,15 @@ class FileService implements FileServiceInterface
 
     public function uploadFile(UploadedFile $uploadedFile)
     {
+        $user = auth()->user();
+
         // Create a new file record
         $file = $this->fileRepository->create([
             'name' => $uploadedFile->getClientOriginalName(),
             'extension' => $uploadedFile->getClientOriginalExtension(),
             'mime_type' => $uploadedFile->getMimeType(),
             'size' => $uploadedFile->getSize(),
+            'author_id' => $user->id
         ]);
 
         // Ensure fileId is correctly passed and used

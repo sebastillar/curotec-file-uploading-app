@@ -15,7 +15,7 @@ export const useFileStore = defineStore("file", {
             this.error = null;
 
             try {
-                const response = await axios.get("/files/latest");
+                const response = await axios.get("/api/files/latest");
                 console.log("API Response:", response);
                 this.files = response.data.data || [];
                 return this.files;
@@ -32,7 +32,7 @@ export const useFileStore = defineStore("file", {
         async downloadFile(fileId) {
             try {
                 const versionsResponse = await axios.get(
-                    `/files/${fileId}/versions`
+                    `/api/files/${fileId}/versions`
                 );
                 const versions = versionsResponse.data.data || [];
 
@@ -43,7 +43,7 @@ export const useFileStore = defineStore("file", {
                 const latestVersion = versions[0];
 
                 const response = await axios.get(
-                    `/files/versions/${latestVersion.id}/download`,
+                    `/api/files/versions/${latestVersion.id}/download`,
                     {
                         responseType: "blob",
                     }
@@ -82,7 +82,9 @@ export const useFileStore = defineStore("file", {
 
         async fetchFileWithVersions(fileId) {
             try {
-                const response = await axios.get(`/files/${fileId}/versions`);
+                const response = await axios.get(
+                    `/api/files/${fileId}/versions`
+                );
                 const fileData = response.data.data;
 
                 const fileIndex = this.files.findIndex((f) => f.id === fileId);
@@ -103,7 +105,7 @@ export const useFileStore = defineStore("file", {
         async addComment({ file_version_id, content }) {
             try {
                 const response = await axios.post(
-                    `/files/versions/${file_version_id}/comments`,
+                    `/api/files/versions/${file_version_id}/comments`,
                     { comment: content }
                 );
 
@@ -119,17 +121,22 @@ export const useFileStore = defineStore("file", {
                 const formData = new FormData();
                 formData.append("file", file);
 
-                const response = await axios.post("/files/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                    onUploadProgress: (progressEvent) => {
-                        const percentCompleted = Math.round(
-                            (progressEvent.loaded * 100) / progressEvent.total
-                        );
-                        console.log("Upload progress:", percentCompleted);
-                    },
-                });
+                const response = await axios.post(
+                    "/api/files/upload",
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                        onUploadProgress: (progressEvent) => {
+                            const percentCompleted = Math.round(
+                                (progressEvent.loaded * 100) /
+                                    progressEvent.total
+                            );
+                            console.log("Upload progress:", percentCompleted);
+                        },
+                    }
+                );
 
                 await this.fetchFiles();
 
@@ -204,7 +211,7 @@ export const useFileStore = defineStore("file", {
                 formData.append("file", file);
 
                 const response = await axios.post(
-                    `/files/${fileId}/versions`,
+                    `/api/files/${fileId}/versions`,
                     formData,
                     {
                         headers: {
@@ -235,7 +242,7 @@ export const useFileStore = defineStore("file", {
         async downloadVersion(versionId) {
             try {
                 const response = await axios.get(
-                    `/files/versions/${versionId}/download`,
+                    `/api/files/versions/${versionId}/download`,
                     {
                         responseType: "blob",
                     }

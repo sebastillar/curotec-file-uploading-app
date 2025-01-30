@@ -10,7 +10,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\User;
 class FileManagementTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
@@ -25,12 +25,16 @@ class FileManagementTest extends TestCase
     public function user_can_upload_a_single_file()
     {
         // Arrange
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $file = UploadedFile::fake()->create('document.pdf', 1024);
 
         // Act
-        $response = $this->postJson('/files/upload', [
-            'file' => $file
-        ]);
+        $response = $this->actingAs($user)
+            ->postJson('/api/files/upload', [
+                'file' => $file
+            ]);
 
         // Assert
         $response->assertCreated()
@@ -50,7 +54,8 @@ class FileManagementTest extends TestCase
 
         $this->assertDatabaseHas('files', [
             'name' => 'document.pdf',
-            'extension' => 'pdf'
+            'extension' => 'pdf',
+            'author_id' => $user->id  // Add this assertion
         ]);
 
         $this->assertDatabaseHas('file_versions', [
@@ -63,13 +68,15 @@ class FileManagementTest extends TestCase
     public function user_can_upload_multiple_files()
     {
         // Arrange
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $files = [
             UploadedFile::fake()->create('doc1.pdf', 1024),
             UploadedFile::fake()->create('doc2.pdf', 1024)
         ];
 
         // Act
-        $response = $this->postJson('/files/upload/multiple', [
+        $response = $this->postJson('/api/files/upload/multiple', [
             'files' => $files
         ]);
 
@@ -95,6 +102,8 @@ class FileManagementTest extends TestCase
     public function user_can_add_new_version_to_existing_file()
     {
         // Arrange
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $file = File::factory()->create();
         $version = FileVersion::factory()->create([
             'file_id' => $file->id,
@@ -104,7 +113,7 @@ class FileManagementTest extends TestCase
         $newVersionFile = UploadedFile::fake()->create('document_v2.pdf', 1024);
 
         // Act
-        $response = $this->postJson("/files/{$file->id}/versions", [
+        $response = $this->postJson("/api/files/{$file->id}/versions", [
             'file' => $newVersionFile
         ]);
 
@@ -131,6 +140,8 @@ class FileManagementTest extends TestCase
     public function user_can_get_file_versions()
     {
         // Arrange
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $file = File::factory()->create();
         $versions = FileVersion::factory()->count(3)->create([
             'file_id' => $file->id
@@ -140,7 +151,7 @@ class FileManagementTest extends TestCase
         $this->assertTrue(Route::has('files.versions.download'), 'Download route not found');
 
         // Act
-        $response = $this->getJson("/files/{$file->id}/versions");
+        $response = $this->getJson("/api/files/{$file->id}/versions");
 
         // Assert
         $response->assertOk()
@@ -163,11 +174,13 @@ class FileManagementTest extends TestCase
     public function user_can_add_comment_to_version()
     {
         // Arrange
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $version = FileVersion::factory()->create();
         $comment = $this->faker->sentence();
 
         // Act
-        $response = $this->postJson("/files/versions/{$version->id}/comments", [
+        $response = $this->postJson("/api/files/versions/{$version->id}/comments", [
             'comment' => $comment
         ]);
 
@@ -192,6 +205,9 @@ class FileManagementTest extends TestCase
     public function user_can_download_version()
     {
         // Arrange
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         Storage::fake('public');
 
         $file = File::factory()->create([
@@ -216,7 +232,7 @@ class FileManagementTest extends TestCase
         $this->assertTrue(Storage::disk('public')->exists($version->path));
 
         // Act
-        $response = $this->get("files/versions/{$version->id}/download");
+        $response = $this->get("api/files/versions/{$version->id}/download");
 
         // Assert
         $response->assertOk()
@@ -228,6 +244,8 @@ class FileManagementTest extends TestCase
     public function user_can_get_latest_uploads()
     {
         // Arrange
+        $user = User::factory()->create();
+        $this->actingAs($user);
         Storage::fake('public');
 
         $files = File::factory()->count(5)->create([
@@ -245,7 +263,7 @@ class FileManagementTest extends TestCase
         }
 
         // Act
-        $response = $this->getJson('/files/latest?limit=3');
+        $response = $this->getJson('/api/files/latest?limit=3');
 
         // Assert
         $response->assertOk()
@@ -273,10 +291,12 @@ class FileManagementTest extends TestCase
     public function it_validates_file_size()
     {
         // Arrange
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $largeFile = UploadedFile::fake()->create('large.pdf', 11264); // 11MB
 
         // Act
-        $response = $this->postJson('/files/upload', [
+        $response = $this->postJson('/api/files/upload', [
             'file' => $largeFile
         ]);
 
@@ -289,10 +309,13 @@ class FileManagementTest extends TestCase
     public function it_validates_file_type()
     {
         // Arrange
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $invalidFile = UploadedFile::fake()->create('test.exe', 1024);
 
         // Act
-        $response = $this->postJson('/files/upload', [
+        $response = $this->postJson('/api/files/upload', [
             'file' => $invalidFile
         ]);
 
@@ -304,12 +327,15 @@ class FileManagementTest extends TestCase
     /** @test */
     public function it_validates_comment_length()
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         // Arrange
         $version = FileVersion::factory()->create();
         $longComment = str_repeat('a', 1001);
 
         // Act
-        $response = $this->postJson("/files/versions/{$version->id}/comments", [
+        $response = $this->postJson("/api/files/versions/{$version->id}/comments", [
             'comment' => $longComment
         ]);
 
