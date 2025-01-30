@@ -105,6 +105,15 @@ These extensions are installed in the Docker container via the Dockerfile
 - Optimized real-time updates
 - Lazy loading of components
 
+## Database Setup
+
+### Migrations and Seeding
+
+Run the following commands to set up your database:
+
+- `docker compose exec app php artisan migrate`
+- `docker compose exec app php artisan db:seed`
+
 ## 🧪 Testing
 
 Run PHP tests:
