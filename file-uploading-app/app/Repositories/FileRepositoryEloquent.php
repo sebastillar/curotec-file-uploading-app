@@ -32,10 +32,15 @@ class FileRepositoryEloquent extends BaseRepository implements FileRepository
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+
     }
     public function find($id, $columns = ['*'])
     {
         return $this->model->with('versions')->find($id);
     }
 
+    public function getLatestWithVersions()
+    {
+        return $this->model->latestWithVersions();
+    }
 }

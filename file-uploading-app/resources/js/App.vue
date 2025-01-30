@@ -3,8 +3,7 @@
         <Header />
 
         <main class="app-content">
-            <FileUploadTest />
-            <Messages />
+            <FileManager />
         </main>
 
         <Footer />
@@ -14,14 +13,12 @@
 <script setup>
 import Header from "./components/layouts/Header.vue";
 import Footer from "./components/layouts/Footer.vue";
-import FileUploadTest from "./components/FileUploadTest.vue";
-import Messages from "./components/Messages.vue";
+import FileManager from "./components/FileManager.vue";
 
 console.log("Components loaded:", {
     Header,
     Footer,
-    FileUploadTest,
-    Messages,
+    FileManager,
 });
 </script>
 

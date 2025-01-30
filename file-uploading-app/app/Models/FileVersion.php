@@ -30,6 +30,6 @@ class FileVersion extends Model
 
     public function comments()
     {
-        return $this->hasMany(FileVersionComment::class);
+        return $this->hasMany(FileVersionComment::class)->orderBy('created_at', 'asc');
     }
 }

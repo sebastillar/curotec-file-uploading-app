@@ -51,6 +51,7 @@ class FileService implements FileServiceInterface
         // Dispatch the FileUploaded event
         event(new FileUploaded($file, $version));
 
+        // Return the file with versions loaded
         return $file;
     }
 
@@ -100,25 +101,64 @@ class FileService implements FileServiceInterface
 
     public function downloadVersion(int $versionId)
     {
-        $version = $this->versionRepository->getWithComments($versionId);
-        return Storage::disk('public')->download(
-            $version->path,
-            $version->file->name,
-            [
-                'Content-Type' => $version->file->mime_type,
-                'Content-Disposition' => 'attachment; filename="' . $version->file->name . '"'
-            ]
-        );
+        try {
+            $version = $this->versionRepository->getWithComments($versionId);
+
+            // Debug the path
+            \Log::info('Attempting to download file:', [
+                'version_id' => $versionId,
+                'path' => $version->path,
+                'exists' => Storage::disk('public')->exists($version->path)
+            ]);
+
+            if (!Storage::disk('public')->exists($version->path)) {
+                return response()->json([
+                    'message' => 'File not found',
+                    'path' => $version->path
+                ], 404);
+            }
+
+            return Storage::disk('public')->download(
+                $version->path,
+                $version->file->name,
+                [
+                    'Content-Type' => $version->file->mime_type,
+                    'Content-Disposition' => 'attachment; filename="' . $version->file->name . '"'
+                ]
+            );
+        } catch (\Exception $e) {
+            \Log::error('Download error:', [
+                'message' => $e->getMessage(),
+                'version_id' => $versionId
+            ]);
+
+            return response()->json([
+                'message' => 'Error downloading file',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function getLatestUploads(int $limit = 10)
     {
-        return $this->fileRepository->scopeQuery(function($query) {
-            return $query->with(['versions' => function($query) {
-                $query->latest();
-            }])
-            ->orderBy('created_at', 'desc');
-        })->paginate($limit);
+        try {
+
+            return $this->fileRepository->getLatestWithVersions($limit)->paginate($limit);
+
+        } catch (\Exception $e) {
+            \Log::error('Error in getLatestUploads:', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+
+            return new \Illuminate\Pagination\LengthAwarePaginator(
+                collect([]),
+                0,
+                $limit,
+                1
+            );
+        }
     }
 
     private function storeFile(int $fileId, string $extension, UploadedFile $file): string

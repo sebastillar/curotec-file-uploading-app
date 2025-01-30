@@ -4,13 +4,12 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\FileVersionComment;
-class NewVersionComment
+
+class NewVersionComment implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,7 +18,9 @@ class NewVersionComment
      */
     public function __construct(public FileVersionComment $comment)
     {
-        //
+        \Log::info('NewVersionComment constructor', [
+            'comment' => $comment->toArray()
+        ]);
     }
 
     /**
@@ -29,8 +30,14 @@ class NewVersionComment
      */
     public function broadcastOn(): array
     {
+        \Log::info('Broadcasting NewVersionComment', [
+            'channel' => 'file-comments',
+            'comment_id' => $this->comment->id,
+            'version_id' => $this->comment->file_version_id
+        ]);
+
         return [
-            new Channel('files.version.' . $this->comment->file_version_id),
+            new Channel('file-comments')
         ];
     }
 
@@ -39,21 +46,16 @@ class NewVersionComment
      */
     public function broadcastWith(): array
     {
-        return [
+        $data = [
             'comment' => [
                 'id' => $this->comment->id,
                 'comment' => $this->comment->comment,
                 'created_at' => $this->comment->created_at,
-                'version_id' => $this->comment->file_version_id,
-            ],
+                'file_version_id' => $this->comment->file_version_id
+            ]
         ];
-    }
 
-    /**
-     * The event's broadcast name.
-     */
-    public function broadcastAs(): string
-    {
-        return 'version.commented';
+        \Log::info('Broadcasting data:', $data);
+        return $data;
     }
 }

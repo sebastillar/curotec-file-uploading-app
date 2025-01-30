@@ -217,7 +217,7 @@ class FileManagementTest extends TestCase
         $this->assertTrue(Storage::disk('public')->exists($version->path));
 
         // Act
-        $response = $this->get("/files/versions/{$version->id}/download");
+        $response = $this->get("files/versions/{$version->id}/download");
 
         // Assert
         $response->assertOk()
@@ -310,7 +310,7 @@ class FileManagementTest extends TestCase
         $longComment = str_repeat('a', 1001);
 
         // Act
-        $response = $this->postJson("/files/versions/{$version->id}/comments", [  // Added /api prefix
+        $response = $this->postJson("/files/versions/{$version->id}/comments", [
             'comment' => $longComment
         ]);
 

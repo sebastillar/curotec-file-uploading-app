@@ -15,6 +15,8 @@ use Mockery;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Event;
 use App\Events\FileUploaded;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class FileServiceTest extends TestCase
 {
     private FileService $fileService;
@@ -47,7 +49,7 @@ class FileServiceTest extends TestCase
     {
         // Arrange
         Storage::fake('public');
-        Event::fake();  // Make sure we're faking events
+        Event::fake();
 
         $uploadedFile = UploadedFile::fake()->create('document.pdf', 1024);
 
@@ -108,6 +110,7 @@ class FileServiceTest extends TestCase
     {
         // Arrange
         Storage::fake('public');
+        Event::fake();
 
         $uploadedFiles = [
             UploadedFile::fake()->create('doc1.pdf', 1024),
@@ -121,62 +124,136 @@ class FileServiceTest extends TestCase
                 'extension' => 'pdf',
                 'mime_type' => 'application/pdf',
                 'size' => 1024
-            ]), function($file) { $file->id = 1; }),
+            ]), function($file) {
+                $file->id = 1;
+                $file->exists = true;
+            }),
             tap(new File([
                 'name' => 'doc2.pdf',
                 'extension' => 'pdf',
                 'mime_type' => 'application/pdf',
                 'size' => 1024
-            ]), function($file) { $file->id = 2; })
+            ]), function($file) {
+                $file->id = 2;
+                $file->exists = true;
+            })
         ];
+
+        // Track created files and debug calls
+        $createdFiles = [];
+        $debugLog = [];
 
         // Mock file creation
         $this->fileRepository->shouldReceive('create')
             ->twice()
-            ->andReturnUsing(function($data) use ($files) {
+            ->andReturnUsing(function($data) use ($files, &$createdFiles, &$debugLog) {
                 static $count = 0;
-                return $files[$count++];
+                $file = clone $files[$count];
+
+                $debugLog[] = "Creating file {$file->id}";
+                $debugLog[] = "File data: " . json_encode($data);
+
+                // Store for find mock
+                $createdFiles[$file->id] = $file;
+                $debugLog[] = "Stored file {$file->id} in createdFiles";
+                $debugLog[] = "Current createdFiles keys: " . implode(', ', array_keys($createdFiles));
+
+                $count++;
+                return $file;
             });
 
-        // Mock version creation and store files
+        // Mock version creation
         $this->versionRepository->shouldReceive('createVersion')
             ->twice()
-            ->andReturnUsing(function($fileId, $data) {
+            ->andReturnUsing(function($fileId, $data) use (&$createdFiles, &$debugLog) {
+                $debugLog[] = "Creating version for file {$fileId}";
+                $debugLog[] = "Version data: " . json_encode($data);
+
                 Storage::disk('public')->put($data['path'], 'test content');
 
-                return new FileVersion([
+                $version = new FileVersion([
                     'id' => $fileId,
                     'file_id' => $fileId,
                     'version_number' => 1,
                     'path' => $data['path']
                 ]);
+
+                // Add version to the file
+                if (isset($createdFiles[$fileId])) {
+                    $createdFiles[$fileId]->setRelation('versions', collect([$version]));
+                    $debugLog[] = "Added version to file {$fileId}";
+                } else {
+                    $debugLog[] = "WARNING: File {$fileId} not found when adding version!";
+                }
+
+                return $version;
             });
 
-        // Mock find to return fresh file
+        // Mock find to return the created file
         $this->fileRepository->shouldReceive('find')
-            ->twice()
-            ->andReturnUsing(function($id) use ($files) {
-                return collect($files)->firstWhere('id', $id);
+            ->times(2)
+            ->andReturnUsing(function($id) use (&$createdFiles, &$debugLog) {
+                $debugLog[] = "Finding file {$id}";
+                $debugLog[] = "Available files: " . implode(', ', array_keys($createdFiles));
+
+                if (!isset($createdFiles[$id])) {
+                    $debugLog[] = "ERROR: File {$id} not found in createdFiles!";
+                    $debugLog[] = "createdFiles dump: " . print_r($createdFiles, true);
+                    $debugLog[] = "Backtrace: " . debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+                    throw new ModelNotFoundException("No query results for model [App\Models\File] {$id}");
+                }
+
+                $debugLog[] = "Found file {$id}";
+                return clone $createdFiles[$id];
             });
 
-        // Act
-        $result = $this->fileService->uploadMultipleFiles($uploadedFiles);
+        try {
+            $debugLog[] = "\n=== Starting uploadMultipleFiles ===";
 
-        // Assert
-        $this->assertCount(2, $result);
+            // Act
+            foreach ($uploadedFiles as $index => $uploadedFile) {
+                $debugLog[] = "Processing file {$index}";
+                $debugLog[] = "Current createdFiles: " . implode(', ', array_keys($createdFiles));
+            }
 
-        // Verify file data
-        foreach ([$result[0], $result[1]] as $index => $file) {
-            $this->assertEquals($files[$index]->id, $file->id);
-            $this->assertEquals($files[$index]->name, $file->name);
-            $this->assertEquals($files[$index]->extension, $file->extension);
-            $this->assertEquals($files[$index]->mime_type, $file->mime_type);
-            $this->assertEquals($files[$index]->size, $file->size);
+            $result = $this->fileService->uploadMultipleFiles($uploadedFiles);
+
+            $debugLog[] = "=== Finished uploadMultipleFiles ===\n";
+
+            // Assert
+            $this->assertCount(2, $result);
+
+            foreach ($result as $index => $file) {
+                $this->assertEquals($files[$index]->id, $file->id);
+                $this->assertEquals($files[$index]->name, $file->name);
+                $this->assertTrue($file->relationLoaded('versions'));
+                $this->assertCount(1, $file->versions);
+            }
+
+            // Assert events were dispatched
+            Event::assertDispatched(FileUploaded::class, function ($event) use ($files) {
+                return $event->file->id === 1;
+            });
+            Event::assertDispatched(FileUploaded::class, function ($event) use ($files) {
+                return $event->file->id === 2;
+            });
+
+            // Verify files were stored
+            $this->assertNotEmpty(Storage::disk('public')->allFiles("files/1"));
+            $this->assertNotEmpty(Storage::disk('public')->allFiles("files/2"));
+
+        } catch (\Exception $e) {
+            // Output debug log if test fails
+            echo "\nDebug Log at failure:\n";
+            echo implode("\n", $debugLog);
+
+            // Add additional error context
+            echo "\n\nException occurred in: " . get_class($e);
+            echo "\nMessage: " . $e->getMessage();
+            echo "\nStack trace:\n" . $e->getTraceAsString();
+
+            throw $e;
         }
-
-        // Verify files were stored
-        $this->assertNotEmpty(Storage::disk('public')->allFiles("files/1"));
-        $this->assertNotEmpty(Storage::disk('public')->allFiles("files/2"));
     }
 
 
@@ -245,6 +322,7 @@ class FileServiceTest extends TestCase
     /** @test */
     public function it_can_add_version_comment()
     {
+        Event::fake();
         // Arrange
         $versionId = 1;
         $commentText = 'Test comment';

@@ -37,7 +37,11 @@ class FileVersionRepositoryEloquent extends BaseRepository implements FileVersio
     {
         return $this->model
             ->where('file_id', $fileId)
+            ->with(['comments' => function($query) {
+                $query->orderBy('created_at', 'desc');
+            }])
             ->withCount('comments')
+            ->orderBy('version_number', 'desc')
             ->get();
     }
 

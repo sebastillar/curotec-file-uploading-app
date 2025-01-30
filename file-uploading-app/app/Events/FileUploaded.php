@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\File;
 use App\Models\FileVersion;
 
-class FileUploaded
+class FileUploaded implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -22,10 +22,7 @@ class FileUploaded
     public function __construct(
         public File $file,
         public FileVersion $version
-    )
-    {
-
-    }
+    ) {}
 
     /**
      * Get the channels the event should broadcast on.
@@ -35,27 +32,20 @@ class FileUploaded
     public function broadcastOn(): array
     {
         return [
-            new Channel('files'),
+            new Channel('files')
         ];
     }
 
     /**
      * Get the data to broadcast.
+     *
+     * @return array
      */
     public function broadcastWith(): array
     {
         return [
-            'file' => [
-                'id' => $this->file->id,
-                'name' => $this->file->name,
-                'extension' => $this->file->extension,
-                'size' => $this->file->size,
-            ],
-            'version' => [
-                'id' => $this->version->id,
-                'version_number' => $this->version->version_number,
-                'created_at' => $this->version->created_at,
-            ],
+            'file' => $this->file->load('versions'),
+            'version' => $this->version
         ];
     }
 

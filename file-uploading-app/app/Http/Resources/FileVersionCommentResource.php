@@ -17,7 +17,6 @@ class FileVersionCommentResource extends JsonResource
         return [
             'id' => $this->id,
             'comment' => $this->comment,
-            'version' => new FileVersionResource($this->whenLoaded('fileVersion')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

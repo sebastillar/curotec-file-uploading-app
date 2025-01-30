@@ -32,10 +32,12 @@ class FileVersionCommentRepositoryEloquent extends BaseRepository implements Fil
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-
     public function findByVersion(int $versionId)
     {
-        return $this->findWhere(['file_version_id' => $versionId]);
+        return $this->model->newQuery()
+            ->where('file_version_id', $versionId)
+            ->orderBy('created_at', 'asc')
+            ->get();
     }
 
     public function createComment(int $versionId, array $data)
