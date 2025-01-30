@@ -16,9 +16,12 @@ use Tests\TestCase;
 use Illuminate\Support\Facades\Event;
 use App\Events\FileUploaded;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FileServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     private FileService $fileService;
     private $fileRepository;
     private $versionRepository;
