@@ -22,12 +22,15 @@ class FileService implements FileServiceInterface
 
     public function uploadFile(UploadedFile $uploadedFile)
     {
+        $user = auth()->user();
+
         // Create a new file record
         $file = $this->fileRepository->create([
             'name' => $uploadedFile->getClientOriginalName(),
             'extension' => $uploadedFile->getClientOriginalExtension(),
             'mime_type' => $uploadedFile->getMimeType(),
             'size' => $uploadedFile->getSize(),
+            'author_id' => $user->id
         ]);
 
         // Ensure fileId is correctly passed and used
@@ -142,8 +145,13 @@ class FileService implements FileServiceInterface
     public function getLatestUploads(int $limit = 10)
     {
         try {
+            $user = auth()->user();
 
-            return $this->fileRepository->getLatestWithVersions($limit)->paginate($limit);
+            if (!$user) {
+                throw new \Exception('User not authenticated');
+            }
+
+            return $this->fileRepository->getLatestWithVersions($user, $limit)->paginate($limit);
 
         } catch (\Exception $e) {
             \Log::error('Error in getLatestUploads:', [

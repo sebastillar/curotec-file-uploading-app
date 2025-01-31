@@ -1,22 +1,36 @@
-import axios from "./utils/axios";
-import { initializeEcho } from "./utils/echo";
-import { initializePusher } from "./utils/pusher";
+import axios from "axios";
+import Echo from "laravel-echo";
+import Pusher from "pusher-js";
+import { useAuthStore } from "./stores/auth";
 
-export async function initializeServices() {
-    try {
-        // Initialize services in sequence
-        await initializePusher();
-        const echo = await initializeEcho();
+// First, create the Echo class
+window.Pusher = Pusher;
 
-        if (echo) {
-            window.Echo = echo;
-        } else {
-            console.warn("Echo initialization failed");
+window.Echo = new Echo({
+    broadcaster: "pusher",
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    forceTLS: true,
+});
+
+export const initializeServices = () => {
+    // Initialize Axios
+    axios.defaults.withCredentials = true;
+
+    // Add response interceptor
+    axios.interceptors.response.use(
+        (response) => response,
+        (error) => {
+            if (error.response?.status === 401) {
+                const authStore = useAuthStore();
+                authStore.logout();
+                window.location.href = "/login";
+            }
+            return Promise.reject(error);
         }
+    );
 
-        console.log("🚀 Application services initialized");
-    } catch (error) {
-        console.error("Service initialization failed:", error);
-        throw error;
-    }
-}
+    return Promise.resolve();
+};
+
+export default Echo;

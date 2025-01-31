@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\File>
@@ -28,6 +29,7 @@ class FileFactory extends Factory
         ];
 
         return [
+            'author_id' => User::factory(),
             'name' => $this->faker->words(3, true) . '.' . $extension,
             'extension' => $extension,
             'mime_type' => $mimeTypes[$extension],

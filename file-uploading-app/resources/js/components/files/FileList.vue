@@ -21,7 +21,7 @@
 
 <script setup>
 import { computed, onMounted } from "vue";
-import { useFileStore } from "../stores/fileStore";
+import { useFileStore } from "../../stores/fileStore";
 import FileCard from "./FileCard.vue";
 
 const fileStore = useFileStore();

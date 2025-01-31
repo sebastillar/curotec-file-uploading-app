@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "../utils/axios";
+import { useAuthStore } from "./auth";
+import { useRouter } from "vue-router";
 
 export const useFileStore = defineStore("file", {
     state: () => ({
@@ -15,14 +17,67 @@ export const useFileStore = defineStore("file", {
             this.error = null;
 
             try {
-                const response = await axios.get("/files/latest");
-                console.log("API Response:", response);
+                const response = await axios.get("/api/files/latest");
                 this.files = response.data.data || [];
-                return this.files;
             } catch (error) {
                 console.error("Error fetching files:", error);
-                this.error = "Failed to load files";
-                this.files = [];
+                if (error.code === "ERR_NETWORK") {
+                    this.error =
+                        "Network error: Please check your internet connection.";
+                } else if (error.message.includes("CORS")) {
+                    this.error =
+                        "CORS error: Please check your server configuration.";
+                } else {
+                    this.error = "Failed to load files";
+                }
+
+                if (error.response?.status === 401) {
+                    const authStore = useAuthStore();
+                    const router = useRouter();
+                    await authStore.logout();
+                    router.push("/login");
+                }
+
+                throw error;
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async uploadFile(file) {
+            this.loading = true;
+            this.error = null;
+
+            try {
+                const formData = new FormData();
+                formData.append("file", file);
+
+                const response = await axios.post(
+                    "/api/files/upload",
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
+
+                if (response.data) {
+                    this.files = [...this.files, response.data];
+                }
+
+                return response.data;
+            } catch (error) {
+                console.error("Upload error:", error);
+                this.error = "Failed to upload file";
+
+                if (error.response?.status === 401) {
+                    const authStore = useAuthStore();
+                    const router = useRouter();
+                    await authStore.logout();
+                    router.push("/login");
+                }
+
                 throw error;
             } finally {
                 this.loading = false;
@@ -32,7 +87,7 @@ export const useFileStore = defineStore("file", {
         async downloadFile(fileId) {
             try {
                 const versionsResponse = await axios.get(
-                    `/files/${fileId}/versions`
+                    `/api/files/${fileId}/versions`
                 );
                 const versions = versionsResponse.data.data || [];
 
@@ -43,7 +98,7 @@ export const useFileStore = defineStore("file", {
                 const latestVersion = versions[0];
 
                 const response = await axios.get(
-                    `/files/versions/${latestVersion.id}/download`,
+                    `/api/files/versions/${latestVersion.id}/download`,
                     {
                         responseType: "blob",
                     }
@@ -82,7 +137,9 @@ export const useFileStore = defineStore("file", {
 
         async fetchFileWithVersions(fileId) {
             try {
-                const response = await axios.get(`/files/${fileId}/versions`);
+                const response = await axios.get(
+                    `/api/files/${fileId}/versions`
+                );
                 const fileData = response.data.data;
 
                 const fileIndex = this.files.findIndex((f) => f.id === fileId);
@@ -103,39 +160,13 @@ export const useFileStore = defineStore("file", {
         async addComment({ file_version_id, content }) {
             try {
                 const response = await axios.post(
-                    `/files/versions/${file_version_id}/comments`,
+                    `/api/files/versions/${file_version_id}/comments`,
                     { comment: content }
                 );
 
                 return response.data;
             } catch (error) {
                 console.error("Error adding comment:", error);
-                throw error;
-            }
-        },
-
-        async uploadFile(file) {
-            try {
-                const formData = new FormData();
-                formData.append("file", file);
-
-                const response = await axios.post("/files/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                    onUploadProgress: (progressEvent) => {
-                        const percentCompleted = Math.round(
-                            (progressEvent.loaded * 100) / progressEvent.total
-                        );
-                        console.log("Upload progress:", percentCompleted);
-                    },
-                });
-
-                await this.fetchFiles();
-
-                return response.data;
-            } catch (error) {
-                console.error("Upload error in store:", error);
                 throw error;
             }
         },
@@ -154,6 +185,8 @@ export const useFileStore = defineStore("file", {
                         this.handleFileUploaded(event.file);
                     }
                 );
+            } else {
+                console.error("Echo is not initialized");
             }
         },
 
@@ -204,7 +237,7 @@ export const useFileStore = defineStore("file", {
                 formData.append("file", file);
 
                 const response = await axios.post(
-                    `/files/${fileId}/versions`,
+                    `/api/files/${fileId}/versions`,
                     formData,
                     {
                         headers: {
@@ -235,7 +268,7 @@ export const useFileStore = defineStore("file", {
         async downloadVersion(versionId) {
             try {
                 const response = await axios.get(
-                    `/files/versions/${versionId}/download`,
+                    `/api/files/versions/${versionId}/download`,
                     {
                         responseType: "blob",
                     }

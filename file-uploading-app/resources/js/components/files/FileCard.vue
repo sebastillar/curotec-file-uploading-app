@@ -5,12 +5,13 @@
                 <i class="fas fa-file-pdf"></i>
             </div>
             <div class="file-info">
-                <h3 class="file-name dark:text-white">
-                    {{ file.name || "Unnamed File" }}
-                </h3>
+                <h3 class="text-lg font-semibold">{{ file.name }}</h3>
+
                 <div class="file-meta">
                     <span>{{ formatFileSize(file.size) }}</span>
-                    <span class="date">{{ formatDate(file.created_at) }}</span>
+                    <p class="text-sm text-gray-500">
+                        Uploaded {{ formatDate(file.created_at) }}
+                    </p>
                 </div>
                 <div class="version-badge">
                     {{ file.versions_count || 0 }} version{{
@@ -40,7 +41,7 @@
 
 <script setup>
 import { formatDistanceToNow } from "date-fns";
-import { useFileStore } from "../stores/fileStore";
+import { useFileStore } from "../../stores/fileStore";
 
 const props = defineProps({
     file: {
@@ -53,12 +54,23 @@ defineEmits(["show-versions"]);
 
 const fileStore = useFileStore();
 
-const formatDate = (date) => {
+const formatDate = (dateString) => {
     try {
-        return formatDistanceToNow(new Date(date), { addSuffix: true });
+        if (!dateString) {
+            return "Date not available";
+        }
+
+        const date = new Date(dateString);
+
+        // Check if date is valid
+        if (isNaN(date.getTime())) {
+            return "Invalid date";
+        }
+
+        return formatDistanceToNow(date, { addSuffix: true });
     } catch (error) {
         console.error("Date formatting error:", error);
-        return "Invalid date";
+        return "Date error";
     }
 };
 

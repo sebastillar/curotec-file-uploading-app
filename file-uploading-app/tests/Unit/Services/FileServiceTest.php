@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\Event;
 use App\Events\FileUploaded;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Unit\Services\Traits\WithTestUser;
 
 class FileServiceTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithTestUser;
 
     private FileService $fileService;
     private $fileRepository;
@@ -45,6 +46,19 @@ class FileServiceTest extends TestCase
 
         // Create fake storage disk
         Storage::fake('public');
+
+        $this->setUpTestUser();
+    }
+
+    protected function createTestFile(array $attributes = []): File
+    {
+        return new File(array_merge([
+            'name' => 'document.pdf',
+            'extension' => 'pdf',
+            'mime_type' => 'application/pdf',
+            'size' => 1048576,
+            'author_id' => $this->testUser->id
+        ], $attributes));
     }
 
     /** @test */
@@ -57,12 +71,8 @@ class FileServiceTest extends TestCase
         $uploadedFile = UploadedFile::fake()->create('document.pdf', 1024);
 
         // Create models
-        $file = new File([
-            'name' => 'document.pdf',
-            'extension' => 'pdf',
-            'mime_type' => 'application/pdf',
-            'size' => 1048576
-        ]);
+        $file = $this->createTestFile();
+
         $file->forceFill(['id' => 1]);
         $file->exists = true;
 
@@ -122,21 +132,11 @@ class FileServiceTest extends TestCase
 
         // Create proper model instances
         $files = [
-            tap(new File([
-                'name' => 'doc1.pdf',
-                'extension' => 'pdf',
-                'mime_type' => 'application/pdf',
-                'size' => 1024
-            ]), function($file) {
+            tap($this->createTestFile(['name' => 'doc1.pdf']), function($file) {
                 $file->id = 1;
                 $file->exists = true;
             }),
-            tap(new File([
-                'name' => 'doc2.pdf',
-                'extension' => 'pdf',
-                'mime_type' => 'application/pdf',
-                'size' => 1024
-            ]), function($file) {
+            tap($this->createTestFile(['name' => 'doc2.pdf']), function($file) {
                 $file->id = 2;
                 $file->exists = true;
             })
